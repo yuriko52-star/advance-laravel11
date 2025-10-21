@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Author;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
     public function index() 
     {
         $authors = Author::all();
+        
         return view('index', ['authors' => $authors]);
     }
     public function add(){
         return view('add');
     }
-    public function create(Request $request) {
+    public function create(AuthorRequest $request) {
         $form = $request->all();
+        
         Author::create($form);
         return redirect('/');
     }
@@ -26,8 +29,9 @@ class AuthorController extends Controller
         // 'form'を使って画面の埋め込みができる
         // {{$form-> }}
     }
-    public function update(Request $request) {
+    public function update(AuthorRequest $request) {
         $form = $request->all();
+        
         unset($form['_token']);
         Author::find($request->id)->update($form);
         return redirect('/');
@@ -39,6 +43,7 @@ class AuthorController extends Controller
     }
     public function remove(Request $request) {
         Author::find($request->id)->delete();
+        
         return redirect('/');
     }
     public function find() {
@@ -59,5 +64,8 @@ class AuthorController extends Controller
             'item' => $author,
         ];
         return view('author.binds', $data);
+    }
+    public function verror() {
+        return view('verror');
     }
 }
