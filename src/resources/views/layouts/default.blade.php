@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <style>
+    @vite('resources/css/app.css')
+    <!-- <style> 
         body {
             font-size: 16px;
             margin: 5px;
@@ -20,11 +21,16 @@
             margin: 10px;
         }
     </style>
+    -->
 </head>
-<body>
-    <h1>@yield('title')</h1>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-blue-500 text-white p-5 shadow-md">
+        <h1 class="text-5xl font-bold">@yield('title')</h1>
+    </header>
+    <main class="p-6">
     <div class="content">
         @yield('content')
     </div>
+    </main>
 </body>
 </html>
