@@ -1,5 +1,5 @@
 @extends('layouts.default')
-<style>
+<!-- <style>
     th {
         background-color: #289adc;
         color: white;
@@ -20,6 +20,7 @@
         color: white;
     }
 </style>
+ -->
 @section('title', 'edit.blade.php')
 
 @section('content')
@@ -27,7 +28,7 @@
 <p>入力に誤りがあります</p>
 @endif
 <form action="/edit" method="post">
-    <table>
+    <table class="min-w-80% border border-gray-300 shadow-xl rounded-lg overflow-hidden mt-10">
         @csrf
         @error('id')
         <tr>
@@ -38,8 +39,9 @@
         </tr>
         @enderror  
         <tr>
-            <th>id</th>
-            <td><input type="text" name="id" value="{{$form->id}}">
+            <th class="px-8 py-5 text-center text-3xl bg-blue-500 text-white">id</th>
+            <td>
+                <input type="text" name="id" value="{{$form->id}}" class="px-8 py-5 text-center text-3xl border-b ">
         </td>
         </tr>
         @error('name')
@@ -51,8 +53,9 @@
     </tr>
     @enderror 
         <tr>
-            <th>name</th>
-            <td><input type="text" name="name" value="{{$form->name}}">
+            <th class="px-8 py-5 text-center text-3xl bg-blue-500 text-white border">name</th>
+            <td class="px-8 py-5 text-3xl bg-white border-b">
+                <input type="text" name="name" value="{{$form->name}}" class="min-w-full  focus: outline-none focus:ring-2 rounded-md text-center ">
         </td>
         </tr>
         @error('age')
@@ -64,8 +67,9 @@
         </tr>
         @enderror 
         <tr>
-            <th>age</th>
-            <td><input type="text" name="age" value="{{$form->age}}">
+            <th class="px-8 py-5 text-center text-3xl bg-blue-500 text-white border-b">age</th>
+            <td class="px-8 py-5 text-3xl bg-white border-b">
+                <input type="text" name="age" value="{{$form->age}}" class="min-w-full  focus: outline-none focus:ring-2 rounded-md text-center">
         </td>
         </tr>
         @error('nationality')
@@ -77,14 +81,15 @@
         </tr>
         @enderror 
         <tr>
-            <th>nationality</th>
-            <td><input type="text" name="nationality" value="{{$form->nationality}}">
+            <th class="px-8 py-5 text-center text-3xl bg-blue-500 text-white border-b">nationality</th>
+            <td class="px-8 py-5 text-3xl bg-white border-b">
+                <input type="text" name="nationality" value="{{$form->nationality}}" class="min-w-full  focus: outline-none focus:ring-2 rounded-md text-center" >
         </td>
         </tr>
         <tr>
-            <th></th>
-            <td>
-                <button>送信</button>
+            <th class="px-8 py-9 text-center text-3xl bg-blue-500 text-white"></th>
+            <td class="px-8 py-5 text-3xl bg-white text-center">
+                <button class="text-blue-500">送信</button>
             </td>
         </tr>
     </table>

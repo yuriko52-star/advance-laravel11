@@ -1,5 +1,5 @@
 @extends('layouts.default')
-<style>
+<!-- <style> 
 th {
   background-color: #289ADC;
   color: white;
@@ -14,16 +14,17 @@ td {
   text-align: center;
 }  
 </style>
+-->
 @section('title','book.idex.blade.php')
 
 @section('content')
-<table>
+<table class="mt-10 min-w-full border border-gray-300 shadow-xl rounded-lg overflow-hidden">
     <tr>
-        <th>Books</th>
+        <th class="px-8 py-5 text-center text-3xl bg-blue-500 text-white">Books</th>
     </tr>
     @foreach($items as $item)
-    <tr>
-        <td>
+    <tr class="even:bg-gray-200">
+        <td class="px-6 py-5 border-t border-gray-200 text-center text-2xl">
             {{$item->getTitle()}}
         </td>
     </tr>
