@@ -5,7 +5,10 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 
 
-
+/*Route::get('/', function () {
+    return view('welcome');
+    });
+ */
 Route::get('/',[AuthorController::class,'index']);
 Route::get('/add',[AuthorController::class,'add']);
 Route::post('/add',[AuthorController::class,'create']);
@@ -19,10 +22,8 @@ Route::get('/author/{author}',[AuthorController::class,'bind']);
 Route::get('/verror',[AuthorController::class,'verror']);
 Route::get('/relation',[AuthorController::class,'relate']);
 Route::prefix('book')->group(function() {
-    // Route::get('/',[BookController::class,'index']);
+    Route::get('/',[BookController::class,'index']);
     Route::get('/add',[BookController::class,'add']);
     Route::post('/add',[BookController::class,'create']);
 });
-    Route::get('/', function () {
-    return view('welcome');
-    });
+    

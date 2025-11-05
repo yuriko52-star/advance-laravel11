@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Author;
 
 class AuthorsTableSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class AuthorsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $param = [
+        /*$param = [
             'name' => 'caesar',
             'age' => 56,
             'nationality' => 'Italian',
@@ -38,5 +39,7 @@ class AuthorsTableSeeder extends Seeder
             'nationality' => 'japanese',
         ];
         DB::table('authors')->insert($param);
+        */
+        Author::factory()->count(5)->create();
     }
 }
