@@ -25,6 +25,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const form = document.querySelector("form");
+        const button = form.querySelector("button");
         // 1. ページ内の<form>タグを取得
         // 2. formが送信されそうになったとき（submitイベント）
         // 3. 確認ダイアログを出す
@@ -37,7 +38,20 @@
             if(!result) {
                 e.preventDefault();
                 // フォームの標準動作 → サーバーへ送信してページをリロードするのを止めたいときに使うのが e.preventDefault() 「送信ボタンを押しても、JavaScriptで確認してから送信したい」 → 一度止める → OKなら再送信 or 何もしない、という制御ができる
+                return;
+                
             }
+            button.disabled = true;
+            button.textContent = "待っててね";
+            button.classList.add("bg-white","text-black");
+            button.classList.remove("bg-blue-500", "text-white");
+
+            e.preventDefault();
+            setTimeout(() => {
+                form.submit();
+                // ブラウザが内部でやるフォーム送信処理を直接呼び出す」関数「JavaScriptのコードからフォームを強制的に送信する」命令。ブラウザが「ユーザーが送信ボタンを押した」と同じ動作をする。つまり、submit イベントを通らず、いきなりサーバーにデータを送る！
+                // form.submit() を呼ぶとすぐに送信されるため、確認ダイアログやアニメーションのあとに実行したい場合はe.preventDefault() で一度止めてから、必要な処理の後で呼ぶのが定石
+            }, 600);
         });
     });
 </script>

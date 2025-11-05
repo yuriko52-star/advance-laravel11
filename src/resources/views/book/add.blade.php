@@ -55,11 +55,27 @@ button {
 <script>
 	document.addEventListener("DOMContentLoaded", () => {
 		const form = document.querySelector("form");
+    const button = form.querySelector("button");
 		form.addEventListener("submit", (e) => {
 			const result = confirm("これを送信してもいいですかね？");
 			if(!result) {
 				e.preventDefault();
+        return;
+        // ← これがないと下の行まで実行される！「キャンセルされたならフォーム送信を止めて、それ以降の処理（ボタン無効化など）をしないで終わる」
 			}
+
+       // 送信中にボタンを無効化
+       button.disabled = true;
+      //  ブラウザ上でそのボタンを押せない状態にするbutton.disabled = falseなら押せる
+       button.textContent = "送信中・・・";
+       button.classList.add("bg-gray-400");
+      //  クラスをJavaScriptで追加・削除したいときに使う
+       button.classList.remove("bg-blue-500");
+       // ページ遷移を少し遅らせて「送信中…」を見せる
+       e.preventDefault();
+       setTimeout(() => {
+        form.submit();// 0.5秒後に本来の送信を実行
+       }, 500);
 		});
 	});
 </script>
