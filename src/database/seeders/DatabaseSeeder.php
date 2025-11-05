@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Author;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +21,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         */
-        $this->call(AuthorsTableSeeder::class);
-        $this->call(BooksTableSeeder::class);
+        // $this->call(AuthorsTableSeeder::class);
+        // $this->call(BooksTableSeeder::class);
+        Author::factory(3)->create();
     }
 }
