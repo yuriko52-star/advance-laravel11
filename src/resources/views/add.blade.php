@@ -3,56 +3,121 @@
 @section('title', 'add.blade.php')
 
 @section('content')
-<div class="p-6"></div>
-@if(count($errors) > 0)
-<p>入力に問題があります</p>
-@endif
+<div class="p-6">
+
 <form action="/add" method="post">
     
         @csrf 
         <div class="grid grid-cols-3 gap-4 items-center w-full">
-            <label for="" class="col-span-1 text-center text-2xl">name</label>
-            <input type="text" name="name" class="col-span-2 h-12 border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500">
-
-             <label class="col-span-1 text-center text-2xl">age</label>
-            <input type="text" name="age" class="col-span-2 h-12 border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500">
-
-            <label class="col-span-1 text-center text-2xl">nationality</label>
-            <input type="text" name="nationality" class="col-span-2 h-12 border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500">
-            <button class="bg-blue-500 border rounded-md text-white text-xl py-2 ">送信</button>
+           
+            <label for="name" class="col-span-1 text-center text-2xl">name</label>
+             <div class="col-span-2">
+                <input type="text" name="name" class=" h-12 w-full border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500 border-red-500" autocomplete="name">
+                <p class="text-red-500 text-sm hidden js-error">名前を入力してください</p>
+           </div>
+            
+             <label for="age" class="col-span-1 text-center text-2xl">age</label>
+             <div class="col-span-2">
+                <input type="text" name="age" class=" h-12 w-full border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500 border-red-500" autocomplete="age">
+                <p class="text-red-500 text-sm  hidden js-error">数字で入力してください</p>
+           </div>
+           
+            <label for="nationaity" class="col-span-1 text-center text-2xl">nationality</label>
+            <div class="col-span-2">
+                <input type="text" name="nationality" class=" h-12 w-full border border-gray-300 rounded-md px-3 focus:ring-2 focus:ring-blue-500 border-red-500" autocomplete="nationality">
+                <p class="text-red-500 text-sm  hidden js-error">国籍を入力してください。</p>
+            </div>
+            <button disabled class="bg-blue-500 border rounded-md text-white text-xl px-4 py-2 opacity-50">送信</button>
         </div>
 </form>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const form = document.querySelector("form");
+        const inputs = form.querySelectorAll("input");
         const button = form.querySelector("button");
-        // 1. ページ内の<form>タグを取得
-        // 2. formが送信されそうになったとき（submitイベント）
-        // 3. 確認ダイアログを出す
-        form.addEventListener("submit", (e) => {
-            // formが送信されるタイミングでこの関数を実行してねという命令 "submit" もイベントの種類の一つ
-            // e は イベントオブジェクト（Event Object）。そのイベントに関する情報（どの要素で起きたか、何をしたかなど）を持つ
+       
+        function checkInputs() {
             
-            const result = confirm("この内容で送信しますか？");
-            // キャンセルを押したら送信を止める
-            if(!result) {
-                e.preventDefault();
-                // フォームの標準動作 → サーバーへ送信してページをリロードするのを止めたいときに使うのが e.preventDefault() 「送信ボタンを押しても、JavaScriptで確認してから送信したい」 → 一度止める → OKなら再送信 or 何もしない、という制御ができる
-                return;
+            let allFilled = true;
+            let valid = true;
+            
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                // 前後の空白を取り除く メソッド
+                const name = input.name;
+                const errorMsg = input.parentElement.querySelector(".js-error"); // 安全に取得
                 
-            }
-            button.disabled = true;
-            button.textContent = "待っててね";
-            button.classList.add("bg-white","text-black");
-            button.classList.remove("bg-blue-500", "text-white");
 
-            e.preventDefault();
-            setTimeout(() => {
-                form.submit();
-                // ブラウザが内部でやるフォーム送信処理を直接呼び出す」関数「JavaScriptのコードからフォームを強制的に送信する」命令。ブラウザが「ユーザーが送信ボタンを押した」と同じ動作をする。つまり、submit イベントを通らず、いきなりサーバーにデータを送る！
-                // form.submit() を呼ぶとすぐに送信されるため、確認ダイアログやアニメーションのあとに実行したい場合はe.preventDefault() で一度止めてから、必要な処理の後で呼ぶのが定石
-            }, 600);
+                // もしエラーメッセージの要素がなければ、そのinputはスキップ
+                 if (!errorMsg) return;
+
+                 // リセット
+                 errorMsg.classList.add("hidden");
+                 
+                input.classList.remove("border-red-500");
+                // 値が空ならNG
+                if(value.replace(/\s/g, "") === "") {
+                    allFilled = false;
+                    valid = false;
+                    input.classList.add("border-red-500");
+                    //  errorMsg.textContent = "この項目は必須です。"; 
+                     errorMsg.classList.remove("hidden");
+                    
+                    return;// この時点でこのinputの次のチェックはスキップ
+                }
+                // name は空白だけではNG
+                if(name === "name" && value.replace(/\s/g, "") === "") {
+                    // /\s/g→ 「空白文字をすべて」という正規表現
+                    // "" → 「空白を空文字に置き換える」
+                    valid = false;
+                    input.classList.add("border-red-500");
+                    // errorMsg.textContent = "スペースだけの入力は無効です";
+                    errorMsg.classList.remove("hidden");
+                    
+                    
+                }
+                 // age は数字でなければNG 文字列全体が数字だけで構成されているか？」をチェック
+                if (name === "age" && !/^\d+$/.test(value)) {
+                    valid = false;
+                    input.classList.add("border-red-500");
+                    // errorMsg.textContent = "数字で入力してください"; 
+                     errorMsg.classList.remove("hidden");
+                    
+                    
+                 }
+                  // nationality も空欄や空白だけはNG
+                  if(name === "nationality" && value.replace(/\s/g, "") === "") {
+                    valid = false;
+                    input.classList.add("border-red-500");
+                    // errorMsg.textContent = "スペースだけの入力は無効です。"; 
+                    
+                    errorMsg.classList.remove("hidden");
+                    
+                    
+                  }
+                 
+            });
+
+        
+        
+            button.disabled = !(allFilled && valid);
+            button.classList.toggle('opacity-50', button.disabled);
+            button.classList.toggle('bg-blue-500', !button.disabled);
+           
+            
+        }
+            // 入力のたびにチェック
+            form.addEventListener("input", checkInputs);
+            // 初期状態でもチェック
+              checkInputs();
+            // 送信前確認
+            form.addEventListener("submit", (e) => {
+                const result = confirm("この内容で送信する？");
+                if(!result)e.preventDefault();
+            });
+            
         });
-    });
+    
 </script>
 @endsection
